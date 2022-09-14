@@ -9,7 +9,8 @@
 #define SHARED_LIBRARY_LOADER_HPP
 
 // #ifndef __DEBUG__
-// #define __DEBUG__
+//     #define __DEBUG__
+// #endif
 
 #ifdef __unix__
     #define RTLD_LAZY   1
@@ -58,7 +59,7 @@ class SharedLibraryLoader
         {
             #ifdef __DEBUG__
                 cout << "create SharedLibraryLoader..." << endl;
-                cout << "Load library:" << endl;
+                cout << "Load library into SharedLibraryLoader constructor" << endl;
             #endif // __DEBUG__
 
             isLoaded = false;
@@ -70,7 +71,7 @@ class SharedLibraryLoader
         virtual ~SharedLibraryLoader()
         {
             #ifdef __DEBUG__
-                cout << "  Free library into SharedLibraryLoader destructor:" << endl;
+                cout << "Free library into SharedLibraryLoader destructor:" << endl << endl;
             #endif // __DEBUG__
 
             freeLibrary();
@@ -82,6 +83,10 @@ class SharedLibraryLoader
 
         void* load(string filePath)
         {
+            #ifdef __DEBUG__
+                cout << "0-Load library:" << endl;
+            #endif // __DEBUG__            
+
             #ifdef __unix__
                 filePath += ".so";
                 library = dlopen(filePath.c_str(), RTLD_NOW);
@@ -95,8 +100,12 @@ class SharedLibraryLoader
 
             //LEER DOCUMENTACION DE MICROSOFT
             (library) ? isLoaded = true : isLoaded = false;
-            if(!isLoaded) showError("Error: Library could not be loaded!");
-
+            if(!isLoaded) showError("Error: The library "+filePath+" could not be loaded!");
+            
+            #ifdef __DEBUG__
+                if(isLoaded) cout << "  Is loaded: true" << endl << endl;
+            #endif // __DEBUG__      
+            
             return library;
         }
 

@@ -9,7 +9,8 @@
 #define MODULE_LOADER_HPP
 
 // #ifndef __DEBUG__
-// #define __DEBUG__
+//     #define __DEBUG__
+// #endif
 
 #include <string>
 #include <iostream>
@@ -37,6 +38,16 @@ class ModuleLoader
             #endif // __DEBUG__
 
             libraryLoader = new SharedLibraryLoader;
+        }
+
+        ModuleLoader(const char* filePath)
+        {
+            #ifdef __DEBUG__
+                cout << "create ModuleLoader..." << endl << endl;
+            #endif // __DEBUG__
+
+            libraryLoader = new SharedLibraryLoader;
+            isLoaded = libraryLoader->load(filePath);
         }
 
         ~ModuleLoader()

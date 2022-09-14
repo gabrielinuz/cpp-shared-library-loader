@@ -11,15 +11,21 @@
 
 int main()
 {
-    ModuleLoader ml;
-    ml.load("./lib/consoleGreeter");
-    Greeter* consoleGreeter = ml.getInstanceOf<Greeter*>();
+    //Load Module A
+    ModuleLoader mla = "./lib/ConsoleGreeterModuleA";
+    Greeter* greeterA = mla.getInstanceOf<Greeter*>();
+    //Send message:
+    greeterA->greet("Hello World!");
 
-    //Ejecucion
-    consoleGreeter->greet("Hello World!");
+    //Load Module B
+    ModuleLoader mlb = "./lib/ConsoleGreeterModuleB";
+    Greeter* greeterB = mlb.getInstanceOf<Greeter*>();
+    //Send message:
+    greeterB->greet("Hello World!");
 
     //Borrado
-    delete consoleGreeter;
+    delete greeterA;
+    delete greeterB;
 
     return EXIT_SUCCESS;
 }

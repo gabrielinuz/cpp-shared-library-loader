@@ -20,42 +20,38 @@
  *  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
+// #ifndef __DEBUG__
+//     #define __DEBUG__
+// #endif
 
 #include <Greeter.hpp>
 #include <iostream>
 #include <string>
-// #ifndef __DEBUG__
-// #define __DEBUG__
 
 using namespace std;
 
-class ConsoleGreeter : public Greeter
+class ConsoleGreeterModuleB : public Greeter
 {
     public:
-        ConsoleGreeter()
+        ConsoleGreeterModuleB()
         {
             #ifdef __DEBUG__
-                cout << "create ConsoleGreeter from shared library..." << endl;
+                cout << "create ConsoleGreeterModuleB from shared library..." << endl;
             #endif // __DEBUG__
         }
-        virtual ~ConsoleGreeter()
+        virtual ~ConsoleGreeterModuleB()
         {
             #ifdef __DEBUG__
-                cout << "delete ConsoleGreeter from shared library..." << endl;
+                cout << "delete ConsoleGreeterModuleB from shared library..." << endl;
             #endif // __DEBUG__
         }
         void greet(string message)
         {
-            cout << "Hi, I am the console greeter and the message is: " << message << endl;
+            cout << "Hi, I am the console greeter module B and the message is: " << message << endl;
         }
 };
 
-// extern "C" ConsoleGreeter getInstance()
-// {
-//     return ConsoleGreeter();
-// }
-
-extern "C" ConsoleGreeter* getInstance()
+extern "C" ConsoleGreeterModuleB* getInstance()
 {
-    return new ConsoleGreeter(;
+    return new ConsoleGreeterModuleB();
 }
