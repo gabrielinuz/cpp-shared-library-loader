@@ -24,6 +24,8 @@
 #include <Greeter.hpp>
 #include <iostream>
 #include <string>
+// #ifndef __DEBUG__
+// #define __DEBUG__
 
 using namespace std;
 
@@ -32,11 +34,15 @@ class ConsoleGreeter : public Greeter
     public:
         ConsoleGreeter()
         {
-            cout << "create ConsoleGreeter from shared library..." << endl;
+            #ifdef __DEBUG__
+                cout << "create ConsoleGreeter from shared library..." << endl;
+            #endif // __DEBUG__
         }
         virtual ~ConsoleGreeter()
         {
-            cout << "delete ConsoleGreeter from shared library..." << endl;
+            #ifdef __DEBUG__
+                cout << "delete ConsoleGreeter from shared library..." << endl;
+            #endif // __DEBUG__
         }
         void greet(string message)
         {
@@ -44,15 +50,12 @@ class ConsoleGreeter : public Greeter
         }
 };
 
-//No llama al destructor instancia estática
 // extern "C" ConsoleGreeter getInstance()
 // {
 //     return ConsoleGreeter();
 // }
 
-extern "C" ConsoleGreeter* instance =  new ConsoleGreeter();
-
 extern "C" ConsoleGreeter* getInstance()
 {
-    return instance;
+    return new ConsoleGreeter(;
 }

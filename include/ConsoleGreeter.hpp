@@ -1,6 +1,9 @@
 #ifndef CONSOLEGREETER_HPP
 #define CONSOLEGREETER_HPP
 
+// #ifndef __DEBUG__
+// #define __DEBUG__
+
 #include <iostream>
 #include <string>
 #include <Greeter.hpp>
@@ -15,7 +18,6 @@ class ConsoleGreeter : public Greeter
         void greet(string message);
 };
 
-extern "C" ConsoleGreeter* instance;
 extern "C" ConsoleGreeter* getInstance();
 
 #endif

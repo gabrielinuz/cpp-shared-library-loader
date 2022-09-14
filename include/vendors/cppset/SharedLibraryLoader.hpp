@@ -1,12 +1,15 @@
 /**
-* Copyright (c) 2016 Gabriel Ferreira <gabrielinuz@gmail.com>. All rights reserved. 
-* This file is part of CPPSET.
-* Released under the GPL3 license
-* https://opensource.org/licenses/GPL-3.0
+* Copyright (c) 2022 Gabriel Nicolás González Ferreira. All rights reserved.
+* This file is part of CPPSET tools.
+* Released under the MIT license
+* https://opensource.org/licenses/MIT
 **/
 
 #ifndef SHARED_LIBRARY_LOADER_HPP
 #define SHARED_LIBRARY_LOADER_HPP
+
+// #ifndef __DEBUG__
+// #define __DEBUG__
 
 #ifdef __unix__
     #define RTLD_LAZY   1
@@ -21,9 +24,6 @@
 
 #include <string>
 #include <iostream>
-
-// #include <memory>
-// #include <typeinfo>
 
 using namespace std;
 
@@ -44,7 +44,10 @@ class SharedLibraryLoader
     public:
         SharedLibraryLoader()
         {
-            cout << "create SharedLibraryLoader..." << endl;
+            #ifdef __DEBUG__
+                cout << "create SharedLibraryLoader..." << endl << endl;
+            #endif // __DEBUG__
+            
             library = nullptr;
             symbol = nullptr;
             isLoaded = false;
@@ -53,22 +56,31 @@ class SharedLibraryLoader
 
         SharedLibraryLoader(string filePath)
         {
+            #ifdef __DEBUG__
+                cout << "create SharedLibraryLoader..." << endl;
+                cout << "Load library:" << endl;
+            #endif // __DEBUG__
+
             isLoaded = false;
             isFree = false;
-            cout << "create SharedLibraryLoader..." << endl;
-            cout << "Load library:" << endl;
-            loadLibrary(filePath);
+            load(filePath);
             symbol = nullptr;
         }
 
         virtual ~SharedLibraryLoader()
         {
-            cout << "Free library into destructor:" << endl;
+            #ifdef __DEBUG__
+                cout << "  Free library into SharedLibraryLoader destructor:" << endl;
+            #endif // __DEBUG__
+
             freeLibrary();
-            cout << "delete SharedLibraryLoader..." << endl;
+
+            #ifdef __DEBUG__
+                cout << "delete SharedLibraryLoader..." << endl << endl;
+            #endif // __DEBUG__
         }
 
-        void* loadLibrary(string filePath)
+        void* load(string filePath)
         {
             #ifdef __unix__
                 filePath += ".so";
@@ -110,36 +122,17 @@ class SharedLibraryLoader
             return symbol;
         }
 
-        // template<typename ObjectType> ObjectType getObjectFromSymbol(string symbolName)
-
-        template<typename ObjectType> ObjectType getFunctionFromSymbol(string symbolName)
-        {
-            //@toDo doctrine comment format and dinamic cast para comprobar tipo
-            ObjectType obj;
-            if(isLoaded)
-            {
-                typedef ObjectType ( *LibFactoryFunction ) ();
-                LibFactoryFunction factory = (LibFactoryFunction)getExternSymbol(symbolName); // OK
-                if( factory )
-                {
-                    obj = factory();
-                }
-                else
-                {
-                    showError("Incorrect Object Type!");
-                }
-            }
-            return obj;        
-        }
-
         /**
          * @brief Free the shared library handler. dlclose no return boolean value
          */
         bool freeLibrary()
         {
-            cout << "1-Execute freeLibrary method..." << endl;
-            cout << "2-Previous IsFree value: " << isFree << endl;
-            cout << "3-Previous IsLoaded value: " << isLoaded << endl;
+            #ifdef __DEBUG__
+                cout << "  1-Execute freeLibrary method..." << endl;
+                cout << "  2-Previous IsFree value: " << isFree << endl;
+                cout << "  3-Previous IsLoaded value: " << isLoaded << endl;
+            #endif // __DEBUG__
+
             if(isLoaded)
             {
                 #ifdef __unix__
@@ -157,9 +150,12 @@ class SharedLibraryLoader
             // {
             //     showError("Error releasing library not loaded!");
             // }
-            
-            cout << "4-Last IsFree value: " << isFree << endl;
-            cout << "5-Last IsLoaded value: " << isLoaded << endl;
+
+            #ifdef __DEBUG__
+                cout << "  4-Last IsFree value: " << isFree << endl;
+                cout << "  5-Last IsLoaded value: " << isLoaded << endl << endl;
+            #endif // __DEBUG__
+
             return isFree;
         }
 };
