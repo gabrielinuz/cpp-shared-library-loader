@@ -20,6 +20,7 @@
  *  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
+
 // #ifndef __DEBUG__
 //     #define __DEBUG__
 // #endif
@@ -30,28 +31,28 @@
 
 using namespace std;
 
-class ConsoleGreeterModuleB : public Greeter
+class ConsoleGreeter : public Greeter
 {
     public:
-        ConsoleGreeterModuleB()
+        ConsoleGreeter()
         {
             #ifdef __DEBUG__
-                cout << "create ConsoleGreeterModuleB from shared library..." << endl;
+                cout << "create ConsoleGreeter from shared library..." << endl;
             #endif // __DEBUG__
         }
-        virtual ~ConsoleGreeterModuleB()
+        virtual ~ConsoleGreeter()
         {
             #ifdef __DEBUG__
-                cout << "delete ConsoleGreeterModuleB from shared library..." << endl;
+                cout << "delete ConsoleGreeter from shared library..." << endl;
             #endif // __DEBUG__
         }
         void greet(string message)
         {
-            cout << "Hi, I am the console greeter module B and the message is: " << message << endl;
+            cout << "  Hi, I am the console greeter and the message is: " << message << endl;
         }
 };
 
-extern "C" ConsoleGreeterModuleB* getInstance()
+extern "C" ConsoleGreeter* getInstance()
 {
-    return new ConsoleGreeterModuleB();
+    return new ConsoleGreeter();
 }

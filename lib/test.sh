@@ -1,2 +1,2 @@
 #!/bin/bash
-objdump -t consoleGreeter.so |grep getInstance
+objdump -t ConsoleGreeter.so |grep getInstance

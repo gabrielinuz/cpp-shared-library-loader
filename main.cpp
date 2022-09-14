@@ -4,28 +4,19 @@
 * Released under the MIT license
 * https://opensource.org/licenses/MIT
 **/
-
 #include <iostream>
-#include <ModuleLoader.hpp>
+#include <SharedLibraryLoader.hpp>
 #include <Greeter.hpp>
 
-int main()
+int main(int argc, char const *argv[])
 {
-    //Load Module A
-    ModuleLoader mla = "./lib/ConsoleGreeterModuleA";
-    Greeter* greeterA = mla.getInstanceOf<Greeter*>();
-    //Send message:
-    greeterA->greet("Hello World!");
+    SharedLibraryLoader libraryLoader;
+    libraryLoader.load("./lib/ConsoleGreeter");
 
-    //Load Module B
-    ModuleLoader mlb = "./lib/ConsoleGreeterModuleB";
-    Greeter* greeterB = mlb.getInstanceOf<Greeter*>();
-    //Send message:
-    greeterB->greet("Hello World!");
-
-    //Borrado
-    delete greeterA;
-    delete greeterB;
-
-    return EXIT_SUCCESS;
+    typedef Greeter* ( *LibFunctionPointer ) ();
+    LibFunctionPointer libFunctionPointer = (LibFunctionPointer)libraryLoader.getExternSymbol("getInstance");
+    Greeter* greeter = libFunctionPointer();
+    greeter->greet("Hello World");
+    delete greeter;
+    return 0;
 }
