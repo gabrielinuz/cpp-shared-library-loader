@@ -21,9 +21,9 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
-// #ifndef __DEBUG__
-//     #define __DEBUG__
-// #endif
+#ifndef __DEBUG__
+    #define __DEBUG__
+#endif
 
 #include <Greeter.hpp>
 #include <iostream>

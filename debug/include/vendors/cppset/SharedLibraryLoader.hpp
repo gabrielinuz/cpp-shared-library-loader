@@ -8,9 +8,9 @@
 #ifndef SHARED_LIBRARY_LOADER_HPP
 #define SHARED_LIBRARY_LOADER_HPP
 
-// #ifndef __DEBUG__
-//     #define __DEBUG__
-// #endif
+#ifndef __DEBUG__
+    #define __DEBUG__
+#endif
 
 #ifdef __unix__
     #define RTLD_LAZY   1
@@ -98,7 +98,6 @@ class SharedLibraryLoader
                 library = (void*) LoadLibrary(filePath.c_str());
             #endif // defined
 
-            //LEER DOCUMENTACION DE MICROSOFT
             (library) ? isLoaded = true : isLoaded = false;
             if(!isLoaded) showError("Error: The library "+filePath+" could not be loaded!");
             
